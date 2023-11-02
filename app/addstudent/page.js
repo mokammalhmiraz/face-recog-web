@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { db } from "../firebaseConfig";
+import Link from "next/link";
 import {
   ref,
   set,
@@ -13,6 +14,13 @@ import {
 export default function AddStudent() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [currentBatchCount, setCurrentBatchCount] = useState(0);
+
+  function runPythonScript() {
+    // Get the path to the Python script.
+    var pythonScriptPath = "E:/Python/Python Works/main.py";
+    // Run the Python script.
+    subprocess.run(["python", pythonScriptPath]);
+  }
 
   async function getBatchLength(batch) {
     return new Promise((resolve, reject) => {
@@ -34,14 +42,14 @@ export default function AddStudent() {
       });
     });
   }
-
+  const formattedDateTime = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()} ${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
   const [formData, setFormData] = useState({
     Name: "",
     Department: "",
     Batch: 0,
     CGPA: 0.00,
     ID: "",
-    Last_attendance_time: "",
+    Last_attendance_time: formattedDateTime,
     Starting_Year: currentDate.getFullYear(),
     Total_attendance: 0,
   });
@@ -77,13 +85,29 @@ export default function AddStudent() {
       studentData
     ).then(() => {
       window.location.reload(false);
+      const studentId = batchLength + parseInt(formData.Batch) * 1000000;
+      window.confirm(`Student ID: ${studentId}`);
     });
   }
-
+  
+  console.log(formattedDateTime);
   return (
     <div className="my-4">
-      <p>{}</p>
+      <p></p>
       <h2 className="text-2xl font-bold mb-2">Add Student Information</h2>
+      <button
+          type="submit"
+          className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+        >
+          Add Student
+        </button>
+        <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 my-2 mx-2 border border-blue-500 hover:border-transparent rounded">
+          <Link href="/addimages">Click Image</Link>
+        </button>
+        <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 my-2 mx-2 border border-blue-500 hover:border-transparent rounded">
+          <Link href="/">Studnet List</Link>
+        </button>
+        
       <form
         onSubmit={handleSubmit}
         className="bg-white p-4 border rounded shadow"
@@ -127,12 +151,7 @@ export default function AddStudent() {
             className="w-full border p-2 rounded"
           />
         </div>
-        <button
-          type="submit"
-          className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
-        >
-          Add Student
-        </button>
+        
       </form>
     </div>
   );

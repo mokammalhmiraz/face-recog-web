@@ -1,95 +1,80 @@
-"use client";
-import React, { useState } from "react";
-import Webcam from "react-webcam";
+'use client'
+import React, { useState } from 'react';
+import Webcam from 'react-webcam';
+import Link from 'next/link';
 
 const CaptureImage = () => {
   const webcamRef = React.useRef(null);
   const [capturedImage, setCapturedImage] = useState(null);
-  const [imageName, setImageName] = useState("");
+  const [imageName, setImageName] = useState('');
 
   const capture = React.useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot();
     setCapturedImage(imageSrc);
   }, [webcamRef]);
 
-  const handleNameChange = (event) => {
-    setImageName(event.target.value);
+  const handleImageNameChange = (e) => {
+    setImageName(e.target.value);
   };
 
-  const downloadImage = () => {
+  const saveImageLocally = () => {
     if (capturedImage) {
-      const formData = new FormData();
-      formData.append("image", capturedImage);
-
-      fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.imagePath) {
-            console.log("Image saved:", data.imagePath);
-          } else {
-            console.error("Failed to save the image.");
-          }
-        });
+      const link = document.createElement('a');
+      link.href = capturedImage;
+      const fileName = imageName ? `${imageName}.jpg` : 'image.jpg';
+      link.download = fileName; // Set the file name to the input value or 'image.jpg' as default
+      link.click();
+  
+      const fileFormat = fileName.split('.').pop().toUpperCase(); // Extract the file format
+      alert(`File name: ${fileName}`);
     }
   };
-  const [jpegFile, setJpegFile] = useState(null);
-
+  const [file, setfile] = useState();
   const onSubmit = async (e) => {
     e.preventDefault();
-    const base64Data = capturedImage.split(",")[1];
-    const binaryImageData = atob(base64Data);
-
-    const imageArray = new Uint8Array(binaryImageData.length);
-    for (let i = 0; i < binaryImageData.length; i++) {
-      imageArray[i] = binaryImageData.charCodeAt(i);
-    }
-
-    const imageBlob = new Blob([imageArray], { type: "image/jpeg" });
-
-    const imageFile = new File([imageBlob], "image.jpg", {
-      type: "image/jpeg",
-    });
-
-    setJpegFile(imageFile);
-    console.log(imageFile);
-    console.log(imageFile.name);
+    console.log(file);
     const data = new FormData();
-    data.set("file", imageFile);
-    let result = await fetch("api/save_image", {
-      method: "POST",
-      body: data,
+    data.set('file',file)
+    const result = await fetch("api/upload",{
+      method:"POST",
+      body:data,
     });
-    result = await result.json();
-    console.log(result);
-    if (result.success) {
-      alert("file upload");
-    }
+    console.log(result)
   };
-
+  
   return (
     <div className="flex flex-row">
       <div>
         <Webcam audio={false} ref={webcamRef} screenshotFormat="image/jpeg" />
         <button onClick={capture}>Capture</button>
+        <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 my-2 mx-2 border border-blue-500 hover:border-transparent rounded">
+          <Link href="/addstudent">Add Student</Link>
+        </button>
       </div>
       <div>
         {capturedImage && (
           <div>
             <img src={capturedImage} alt="Captured" />
-            <div>
-              <input
-                type="text"
-                value={imageName}
-                onChange={handleNameChange}
-                placeholder="Enter image name"
-              />
-              <button onClick={onSubmit}>Save Image</button>
-            </div>
+            <input
+              type="text"
+              placeholder="Enter image name"
+              value={imageName}
+              onChange={handleImageNameChange}
+            />
+            <button onClick={saveImageLocally}>Save Image</button>
           </div>
         )}
+        <div>
+          <form onSubmit={onSubmit}>
+          <input
+            type="file"
+            name="file"
+            onChange={(e) => setfile(e.target.files?.[0])}
+          />
+          <button type="submit">Upload Img</button>
+          
+        </form>
+        </div>
       </div>
     </div>
   );
