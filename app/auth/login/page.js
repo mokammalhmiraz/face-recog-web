@@ -1,6 +1,7 @@
 'use client'
 import Link from "next/link";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 export default function Signup() {
 
@@ -25,6 +26,17 @@ export default function Signup() {
       alert(data.message);
     }
   };
+  const [user, setUser] = useState('')
+  useEffect(() => {
+      setUser(localStorage.getItem('user_info'))
+      console.log(user)
+  }, [])
+  if(user){
+    window.location.href = "/";
+      return (
+          <></>
+      )
+  }
     return (
       <>
         <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">

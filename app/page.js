@@ -3,6 +3,7 @@ import { db } from "./firebaseConfig";
 import { useEffect, useState } from "react";
 import { ref, get } from "firebase/database";
 import Link from "next/link";
+import { redirect } from "next/dist/server/api-utils";
 
 // function MyApp({ Component, pageProps }) {
 //   return <Component {...pageProps} />;
@@ -34,6 +35,17 @@ export default function Home() {
         console.log("T");
       });
   }, []);
+  const [user, setUser] = useState('')
+  useEffect(() => {
+      setUser(localStorage.getItem('user_info'))
+      console.log(user)
+  }, [])
+  if(user && !user ){
+    window.location.href = "/auth/login";
+      return (
+          <></>
+      )
+  }
   return (
     <div className="container mx-auto mt-4 mb-auto">
       <div class="relative">
