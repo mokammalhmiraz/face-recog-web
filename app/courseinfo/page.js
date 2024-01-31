@@ -25,7 +25,16 @@ export default function Courses() {
         console.error("Error fetching courses:", error);
       });
   }, []);
-
+  const [user, setUser] = useState('')
+  useEffect(() => {
+      setUser(localStorage.getItem('user_info'))
+      console.log(user)
+  }, [])
+  if(!user){
+      return (
+          <></>
+      )
+  }
   return (
     <div className="container mx-auto mt-4 mb-auto">
       <div className="relative">

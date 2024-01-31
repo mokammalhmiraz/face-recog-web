@@ -1,10 +1,9 @@
 import { NextResponse } from "next/server";
-import { cookies } from 'next/headers'
-
+import Cookies from 'js-cookie'
 import bcrypt from "bcrypt";
 import { db } from "@/app/firebaseConfig";
 import { ref, get, set } from "firebase/database";
-//login
+
 export async function POST(request) {
   const { email_username, password } = await request.json();
   const userRef = ref(db, "Users");
@@ -24,11 +23,7 @@ export async function POST(request) {
         { status: 409 }
       );
     }
-    cookies().set('token', existingUser, {
-      path: '/',
-      maxAge: 60 * 60 * 24 * 7 
-    })
-    return NextResponse.json({ message: "Login Successful" }, { status: 200 })
+    return NextResponse.json({ message: "Login Successful", data: existingUser}, { status: 200 })
 
   }
   return NextResponse.json(

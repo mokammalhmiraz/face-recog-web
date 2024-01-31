@@ -2,8 +2,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import Link from "next/link";
-// import { useEffect } from 'react';
-
+import {Navbar} from '@/app/component/navbar/navbar.js'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
@@ -12,32 +11,14 @@ export const metadata = {
 }
 
 export default function RootLayout({ children }) {
-  // useEffect(()=>{
-  //   require('bootstrap/dist/js/bootstrap.min.js')
-  // })
+
   return (
     <html lang="en">
       
       <body className={inter.className}>
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-          {/* <a class="navbar-brand" href="#">Navbar</a> */}
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
+      <Navbar />
 
-          <div className='container'>
-            <Link class="nav-link" href="/addstudent">Add Students</Link>
-            <Link class="nav-link" href="/">All Students Info</Link>
-            <Link class="nav-link" href="/addfaculty">Add Faculty</Link>
-            <Link class="nav-link" href="/facultyinfo">All Faculty Info</Link>
-            <Link class="nav-link" href="/addcourse">Add Courses</Link>
-            <Link class="nav-link" href="/courseinfo">Courses Info</Link>
-            <Link class="nav-link" href="/enrollment">Courses Enrollment</Link>
-            <Link class="nav-link" href="/auth/signup">Create Account</Link>
-            <Link class="nav-link" href="/auth/login">Login</Link>
-          </div>
-        </nav>
       {children}
       </body>
       

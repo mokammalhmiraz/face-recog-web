@@ -18,6 +18,7 @@ export default function Signup() {
     });
     const data = await res.json();
     if(res.status === 200) {
+      localStorage.setItem('user_info', JSON.stringify(data.data))
       alert(data.message);
       window.location.href = "/";
     } else {

@@ -34,6 +34,16 @@ export default function Home() {
         console.log("T");
       });
   }, []);
+  const [user, setUser] = useState('')
+  useEffect(() => {
+      setUser(localStorage.getItem('user_info'))
+      console.log(user)
+  }, [])
+  if(!user && (user && user.role ==='Faculty')){
+      return (
+          <></>
+      )
+  }
   return (
     <div className="container mx-auto mt-4 mb-auto">
       <div class="relative">

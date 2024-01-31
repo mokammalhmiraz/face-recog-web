@@ -109,7 +109,16 @@ export default function FacultyComponent() {
       alert(`File name: ${fileName}`);
     }
   };
-
+  const [user, setUser] = useState('')
+  useEffect(() => {
+      setUser(localStorage.getItem('user_info'))
+      console.log(user)
+  }, [])
+  if(!user && (user && user.role ==='Student' || user && user.role ==='Faculty')){
+      return (
+          <></>
+      )
+  }
   return (
     <div className="container mx-auto my-4">
       <div className="grid justify-center">

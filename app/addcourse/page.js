@@ -42,6 +42,16 @@ export default function CourseComponent() {
       window.confirm(`Course added successfully! Course ID: ${courseId}`);
     });
   };
+  const [user, setUser] = useState('')
+  useEffect(() => {
+      setUser(localStorage.getItem('user_info'))
+      console.log(user)
+  }, [])
+  if(!user && (user && user.role ==='Student' || user && user.role ==='Faculty')){
+      return (
+          <></>
+      )
+  }
 
   return (
     <div className="container mx-auto my-4">
