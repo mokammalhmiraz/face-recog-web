@@ -130,6 +130,9 @@ export default function CombinedComponent() {
         <h2 className="text-2xl font-bold mb-10 inline-block p-2">
           Add Student Information
         </h2>
+        <h6>
+        <Link href="/">Student List</Link>
+        </h6>
       </div>
       <div className="flex flex-row">
         <div className="flex flex-col w-1/2">

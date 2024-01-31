@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "autoprefixer": "^10.4.16",
-    "firebase": "^10.5.2",
+    "bootstrap": "^5.3.2",
+    "firebase": "^10.7.2",
     "formidable": "^3.5.1",
     "fs-extra": "^11.1.1",
     "jquery": "^3.7.1",

@@ -12,9 +12,9 @@ import {
 } from "firebase/database";
 import Webcam from "react-webcam";
 
-export default function CombinedComponent() {
+export default function FacultyComponent() {
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [currentBatchCount, setCurrentBatchCount] = useState(0);
+  const [currentFacultyCount, setCurrentFacultyCount] = useState(0);
   const webcamRef = React.useRef(null);
   const [capturedImage, setCapturedImage] = useState(null);
   const [imageName, setImageName] = useState("");
@@ -23,29 +23,20 @@ export default function CombinedComponent() {
   }-${currentDate.getDate()} ${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
   const [formData, setFormData] = useState({
     Name: "",
-    Department: "",
-    Batch: 0,
-    CGPA: 0.0,
-    ID: "",
     Last_attendance_time: formattedDateTime,
     Starting_Year: currentDate.getFullYear(),
+    Status: "",
     Total_attendance: 0,
   });
 
-  async function getBatchLength(batch) {
+  async function getFacultyCount() {
     return new Promise((resolve, reject) => {
-      const studentsRef = ref(db, "Students");
-      const batchRef = query(
-        studentsRef,
-        orderByChild("Batch"),
-        equalTo(batch)
-      );
-
-      onValue(batchRef, (snapshot) => {
-        const students = snapshot.val();
-        if (students) {
-          const batchLength = Object.keys(students).length;
-          resolve(batchLength);
+      const facultyRef = ref(db, "Faculty");
+      onValue(facultyRef, (snapshot) => {
+        const facultyData = snapshot.val();
+        if (facultyData) {
+          const facultyCount = Object.keys(facultyData).length;
+          resolve(facultyCount);
         } else {
           resolve(0);
         }
@@ -83,43 +74,38 @@ export default function CombinedComponent() {
     console.log(result);
   };
 
-  const combinedSubmit = async (e) => {
+  const facultySubmit = async (e) => {
     e.preventDefault();
-    var batchLength = 0;
+    var facultyCount = 0;
     try {
-      batchLength = await getBatchLength(parseInt(formData.Batch));
+      facultyCount = await getFacultyCount();
     } catch (error) {
       console.error(error);
     }
-    const studentData = {
+    const facultyData = {
       Name: formData.Name,
-      Department: formData.Department,
-      Batch: parseInt(formData.Batch),
-      CGPA: parseFloat(formData.CGPA),
-      ID: batchLength + 1 + parseInt(formData.Batch) * 1000000,
       Last_attendance_time: formData.Last_attendance_time,
       Starting_Year: formData.Starting_Year,
+      Status: formData.Status,
       Total_attendance: formData.Total_attendance,
     };
     set(
-      ref(db, "Students/" + (batchLength + 1 + parseInt(formData.Batch) * 1000000)),
-      studentData
+      ref(db, "Faculty/faculty" + (facultyCount + 1)),
+      facultyData
     ).then(() => {
       window.location.reload(false);
-      const studentId = batchLength + 1 + parseInt(formData.Batch) * 1000000;
-      window.confirm(`Student ID: ${studentId}`);
+      const facultyId = "faculty" + (facultyCount + 1);
+      window.confirm(`Faculty ID: ${facultyId}`);
     });
 
     if (capturedImage) {
       const link = document.createElement("a");
       link.href = capturedImage;
-      const fileName = `${
-        batchLength + 1 + parseInt(formData.Batch) * 1000000
-      }.jpg`;
-      link.download = fileName; // Set the file name to the input value or 'image.jpg' as default
+      const fileName = `faculty${facultyCount + 1}.jpg`;
+      link.download = fileName;
       link.click();
 
-      const fileFormat = fileName.split(".").pop().toUpperCase(); // Extract the file format
+      const fileFormat = fileName.split(".").pop().toUpperCase();
       alert(`File name: ${fileName}`);
     }
   };
@@ -128,7 +114,7 @@ export default function CombinedComponent() {
     <div className="container mx-auto my-4">
       <div className="grid justify-center">
         <h2 className="text-2xl font-bold mb-10 inline-block p-2">
-          Add Student Information
+          Add Faculty Information
         </h2>
       </div>
       <div className="flex flex-row">
@@ -182,7 +168,7 @@ export default function CombinedComponent() {
 
         <div className="w-1/2">
           <form
-            onSubmit={combinedSubmit}
+            onSubmit={facultySubmit}
             className="bg-white p-4 border rounded shadow"
           >
             <div className="mb-4">
@@ -199,27 +185,14 @@ export default function CombinedComponent() {
               />
             </div>
             <div className="mb-4">
-              <label htmlFor="Department" className="block font-semibold">
-                Department
+              <label htmlFor="Status" className="block font-semibold">
+                Status
               </label>
               <input
                 type="text"
-                id="Department"
-                name="Department"
-                value={formData.Department}
-                onChange={handleInputChange}
-                className="w-full border p-2 rounded"
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="Batch" className="block font-semibold">
-                Batch
-              </label>
-              <input
-                type="text"
-                id="Batch"
-                name="Batch"
-                value={formData.Batch}
+                id="Status"
+                name="Status"
+                value={formData.Status}
                 onChange={handleInputChange}
                 className="w-full border p-2 rounded"
               />
@@ -229,7 +202,7 @@ export default function CombinedComponent() {
                 type="submit"
                 className="bg-blue-500 text-white p-2 rounded hover-bg-blue-600"
               >
-                Add Student and Save Image
+                Add Faculty and Save Image
               </button>
             </div>
           </form>
