@@ -1,34 +1,25 @@
 'use client'
 import Link from "next/link";
-// import logo from "../../public/images/logo.png";
 import Image from "next/image";
 
 export default function Signup() {
 
   const handleSignup = async (e) => {
     e.preventDefault();
-    const password = e.target.password.value;
-    if(password !== e.target.confirm_password.value) {
-      alert("Password and confirm password does not match");
-      return;
-    }
-    const res = await fetch("/api/auth/signup", {
+    const res = await fetch("/api/auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },  
       body: JSON.stringify({
-        name: e.target.name.value,
-        username: e.target.username.value,
-        email: e.target.email.value,
+        email_username: e.target.email_username.value,
         password: e.target.password.value,
       }),
     });
     const data = await res.json();
-    console.log(data);
     if(res.status === 200) {
-      alert("Account created successfully");
-      window.location.href = "/auth/login";
+      alert(data.message);
+      window.location.href = "/";
     } else {
       alert(data.message);
     }
@@ -54,9 +45,9 @@ export default function Signup() {
                   </label>
                   <div className="mt-1">
                     <input
-                      id="email"
-                      name="email"
-                      type="email"
+                      id="email_username"
+                      name="email_username"
+                      type="email_username"
                       autoComplete="email"
                       required
                       className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
@@ -72,13 +63,12 @@ export default function Signup() {
                       id="password"
                       name="password"
                       type="password"
-                      autoComplete="current-password"
+                      autoComplete="password"
                       required
                       className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                     />
                   </div>
                 </div>
-  
                 <div>
                   <button
                     type="submit"

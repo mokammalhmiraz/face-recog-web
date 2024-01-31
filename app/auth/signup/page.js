@@ -1,6 +1,5 @@
 'use client'
 import Link from "next/link";
-// import logo from "../../public/images/logo.png";
 import Image from "next/image";
 
 export default function Signup() {
@@ -21,14 +20,16 @@ export default function Signup() {
         name: e.target.name.value,
         username: e.target.username.value,
         email: e.target.email.value,
+        role : e.target.role.value,
         password: e.target.password.value,
       }),
     });
     const data = await res.json();
     console.log(data);
-    if(res.status === 200) {
-      alert("Account created successfully");
+    if(res.status === 201) {
+      alert(data.message);
       window.location.href = "/auth/login";
+      
     } else {
       alert(data.message);
     }
@@ -93,14 +94,14 @@ export default function Signup() {
                   </div>
                 </div>
                 <div>
-                  <label htmlFor="country" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="role" className="block text-sm font-medium text-gray-700">
                     Select Role
                   </label>
                     <div className="mt-1">
                         <select
-                        id="country"
-                        name="country"
-                        autoComplete="country"
+                        id="role"
+                        name="role"
+                        autoComplete="role"
                         required
                         className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
                         <option value="Student">Student</option>
@@ -118,7 +119,22 @@ export default function Signup() {
                       id="password"
                       name="password"
                       type="password"
-                      autoComplete="current-password"
+                      autoComplete="password"
+                      required
+                      className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                    Confirm Password
+                  </label>
+                  <div className="mt-1">
+                    <input
+                      id="confirm_password"
+                      name="confirm_password"
+                      type="password"
+                      autoComplete="confirm_password"
                       required
                       className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                     />
