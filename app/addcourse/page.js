@@ -44,10 +44,14 @@ export default function CourseComponent() {
   };
   const [user, setUser] = useState('')
   useEffect(() => {
-      setUser(localStorage.getItem('user_info'))
-      console.log(user)
+    const userInfo = JSON.parse(localStorage.getItem('user_info'));
+      setUser(userInfo);
+      console.log(user);
+      if (!userInfo) {
+        window.location.href = "/auth/login";
+      }
   }, [])
-  if(!user && (user && user.role ==='Student' || user && user.role ==='Faculty')){
+  if(!user || user.role === 'Student' || user.role === 'Faculty'){
       return (
           <></>
       )

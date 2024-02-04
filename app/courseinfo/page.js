@@ -27,8 +27,12 @@ export default function Courses() {
   }, []);
   const [user, setUser] = useState('')
   useEffect(() => {
-      setUser(localStorage.getItem('user_info'))
-      console.log(user)
+    const userInfo = JSON.parse(localStorage.getItem('user_info'));
+      setUser(userInfo);
+      console.log(user);
+      if (!userInfo) {
+        window.location.href = "/auth/login";
+      }
   }, [])
   if(!user){
       return (
