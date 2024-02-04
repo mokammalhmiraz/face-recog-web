@@ -28,7 +28,7 @@ export default function Signup() {
     console.log(data);
     if(res.status === 201) {
       alert(data.message);
-      window.location.href = "/auth/login";
+      window.location.href = "/auth/signup";
       
     } else {
       alert(data.message);

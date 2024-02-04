@@ -55,6 +55,12 @@ export const Navbar = () => {
             <Link className="nav-link" href="/enrollment">
               Courses Enrollment
             </Link>
+            <Link className="nav-link" href="/coursetime">
+              Course Schedule
+            </Link>
+            <Link className="nav-link" href="/studentlist">
+              Enrolled Student
+            </Link>
             <Link className="nav-link" href="/auth/signup">
               Create Account
             </Link>
@@ -64,6 +70,9 @@ export const Navbar = () => {
         )}
         {user && user.role === "Student" ? (
           <>
+            <Link Link className="nav-link" href="/">
+              All Students Info
+            </Link>
             <Link className="nav-link" href="/courseinfo">
               Courses Info
             </Link>

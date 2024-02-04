@@ -40,7 +40,7 @@ export default function Home() {
       setUser(localStorage.getItem('user_info'))
       console.log(user)
   }, [])
-  if(user && !user ){
+  if(!user && user){
     window.location.href = "/auth/login";
       return (
           <></>
@@ -49,9 +49,6 @@ export default function Home() {
   return (
     <div className="container mx-auto mt-4 mb-auto">
       <div class="relative">
-        <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 my-2 border border-blue-500 hover:border-transparent rounded">
-          <Link href="/addstudent">Add Students</Link>
-        </button>
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 border">
         <thead class="text-xs text-white uppercase bg-gray-50 bg-purple-800 dark:text-gray-400 border">
             <tr>
