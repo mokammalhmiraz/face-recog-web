@@ -58,6 +58,9 @@ export const Navbar = () => {
             <Link className="nav-link" href="/coursetime">
               Course Schedule
             </Link>
+            <Link className="nav-link" href="/course_attendance">
+              Course Attendance
+            </Link>
             <Link className="nav-link" href="/studentlist">
               Enrolled Student
             </Link>
@@ -70,9 +73,6 @@ export const Navbar = () => {
         )}
         {user && user.role === "Student" ? (
           <>
-            <Link Link className="nav-link" href="/">
-              All Students Info
-            </Link>
             <Link className="nav-link" href="/courseinfo">
               Courses Info
             </Link>
@@ -90,6 +90,9 @@ export const Navbar = () => {
             </Link>
             <Link className="nav-link" href="/courseinfo">
               Courses Info
+            </Link>
+            <Link className="nav-link" href="/course_attendance">
+              Course Attendance
             </Link>
           </>
         ) : (

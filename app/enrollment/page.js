@@ -75,8 +75,7 @@ const EnrollmentComponent = () => {
 
     const enrollmentRef = ref(db, "enrollment");
     const enrollmentSnapshot = await get(enrollmentRef);
-    const nextEnrollmentId =
-      userInfo.username + selectedCourses.join("_");
+    const nextEnrollmentId = userInfo.username + selectedCourses.join("_");
 
     const newEnrollmentRef = ref(db, `enrollment/${nextEnrollmentId}`);
 
@@ -128,7 +127,8 @@ const EnrollmentComponent = () => {
         const attendancePromises = courseTimes
           .filter((courseTime) => courseTime !== null)
           .map((courseTime) => {
-            const courseAttendanceId = userInfo.username + selectedCourses.join("_");
+            const courseAttendanceId =
+              userInfo.username + selectedCourses.join("_");
             const currentTime = new Date();
             const currentHour = currentTime.getHours();
             const currentMinute = currentTime.getMinutes();
@@ -146,7 +146,10 @@ const EnrollmentComponent = () => {
             };
 
             // const courseAttendanceRef = push(ref(db, "course_attendance"));
-            const courseAttendanceRef = ref(db, `course_attendance/${courseAttendanceId}`);
+            const courseAttendanceRef = ref(
+              db,
+              `course_attendance/${courseAttendanceId}`
+            );
             return set(courseAttendanceRef, attendanceData);
           });
 
@@ -215,7 +218,20 @@ const EnrollmentComponent = () => {
   const userEnrollments = enrollments.filter(
     (enrollment) => enrollment.studentId === user.username
   );
-
+  const [users, setUsers] = useState('')
+  useEffect(() => {
+    const userInfos = JSON.parse(localStorage.getItem('user_info'));
+      setUsers(userInfos);
+      console.log(users);
+      if (!userInfos) {
+        window.location.href = "/auth/login";
+      }
+  }, [])
+  if(!users || users.role === 'Admin' || users.role === 'Faculty'){
+      return (
+          <></>
+      )
+  }
   return (
     <div className="container mx-auto my-4">
       <div className="grid justify-center">
@@ -281,9 +297,7 @@ const EnrollmentComponent = () => {
                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
               >
                 <td className="px-6 py-4">{enrollment.studentId}</td>
-                <td className="px-6 py-4">
-                  {enrollment.courseID}
-                </td>
+                <td className="px-6 py-4">{enrollment.courseID}</td>
                 <td className="px-6 py-4">
                   <button
                     onClick={() =>

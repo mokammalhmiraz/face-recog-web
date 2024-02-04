@@ -34,6 +34,20 @@ export default function Signup() {
       alert(data.message);
     }
   };
+  const [user, setUser] = useState('')
+  useEffect(() => {
+    const userInfo = JSON.parse(localStorage.getItem('user_info'));
+      setUser(userInfo);
+      console.log(user);
+      if (!userInfo) {
+        window.location.href = "/auth/login";
+      }
+  }, [])
+  if(!user || user.role === 'Student' || user.role === 'Faculty'){
+      return (
+          <></>
+      )
+  }
     return (
       <>
         <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
