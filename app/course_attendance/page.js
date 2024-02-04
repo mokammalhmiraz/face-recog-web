@@ -69,12 +69,18 @@ export default function Home() {
           <tbody>
             {data.map((item) => (
               <>
-                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                {user.role === 'Student' && item.std_id === user.username?<tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                   <td className="px-6 py-4">{item.std_id}</td>
                   <td className="px-6 py-4">{item.course_id}</td>
                   <td className="px-6 py-4">{item.last_attendance_time}</td>
                   <td className="px-6 py-4">{item.total_attendance}</td>
-                </tr>
+                </tr>:<></>}
+                {user.role === 'Admin' || user.role === 'Faculty'?<tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <td className="px-6 py-4">{item.std_id}</td>
+                  <td className="px-6 py-4">{item.course_id}</td>
+                  <td className="px-6 py-4">{item.last_attendance_time}</td>
+                  <td className="px-6 py-4">{item.total_attendance}</td>
+                </tr>:<></>}
               </>
             ))}
           </tbody>

@@ -76,6 +76,9 @@ export const Navbar = () => {
             <Link className="nav-link" href="/enrollment">
               Courses Enrollment
             </Link>
+            <Link className="nav-link" href="/course_attendance">
+              Course Attendance
+            </Link>
           </>
         ) : (
           <></>
