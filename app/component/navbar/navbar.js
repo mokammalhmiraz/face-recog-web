@@ -52,9 +52,6 @@ export const Navbar = () => {
             <Link className="nav-link" href="/courseinfo">
               Courses Info
             </Link>
-            <Link className="nav-link" href="/enrollment">
-              Courses Enrollment
-            </Link>
             <Link className="nav-link" href="/coursetime">
               Course Schedule
             </Link>

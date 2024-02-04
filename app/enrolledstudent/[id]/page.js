@@ -4,7 +4,7 @@ import { db } from "@/app/firebaseConfig";
 import { ref, onValue } from "firebase/database";
 import { useRouter } from "next/navigation";
 
-export default function StudentEnrolledCoursesPage({ params }) {
+export function StudentEnrolledCoursesPage({ params }) {
   const [student, setStudent] = useState(null);
   const [enrolledCourses, setEnrolledCourses] = useState([]);
   const [courseData, setCourseData] = useState({});
@@ -82,12 +82,8 @@ export default function StudentEnrolledCoursesPage({ params }) {
                 key={enrollment.id}
                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
               >
-                {enrollment.courses.map((courseId) => (
-                  <React.Fragment key={courseId}>
-                    <td className="px-6 py-4">{courseData[courseId]?.CourseName}</td>
-                    <td className="px-6 py-4">{courseId}</td>
-                  </React.Fragment>
-                ))}
+                <td className="px-6 py-4">{courseData[enrollment.courseID]?.CourseName}</td>
+                <td className="px-6 py-4">{enrollment.courseID}</td>
               </tr>
             ))}
           </tbody>
@@ -95,4 +91,6 @@ export default function StudentEnrolledCoursesPage({ params }) {
       </div>
     </div>
   );
-}
+};
+
+export default StudentEnrolledCoursesPage;
