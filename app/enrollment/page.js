@@ -129,12 +129,17 @@ const EnrollmentComponent = () => {
           .map((courseTime) => {
             const courseAttendanceId =
               userInfo.username + selectedCourses.join("_");
-            const currentTime = new Date();
-            const currentHour = currentTime.getHours();
-            const currentMinute = currentTime.getMinutes();
-            const currentSecond = currentTime.getSeconds();
+              const currentTime = new Date();
 
-            const formattedTime = `${currentHour}:${currentMinute}`;
+              const year = currentTime.getFullYear();
+              const month = (currentTime.getMonth() + 1).toString().padStart(2, '0');
+              const day = currentTime.getDate().toString().padStart(2, '0');
+              
+              const hours = currentTime.getHours().toString().padStart(2, '0');
+              const minutes = currentTime.getMinutes().toString().padStart(2, '0');
+              const seconds = currentTime.getSeconds().toString().padStart(2, '0');
+              
+              const formattedTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 
             const attendanceData = {
               course_id: courseTime.courseId,

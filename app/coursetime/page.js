@@ -51,20 +51,25 @@ export default function CourseTimeComponent() {
     setSelectedCourse(event.target.value);
   };
 
-  const handleStartTimeChange = (event) => {
-    setStartTime(event.target.value);
+  const handleTimeChange = (event, setTime) => {
+    const selectedTime = event.target.value;
+    const formattedTime = formatTime(selectedTime);
+    setTime(formattedTime);
   };
 
-  const handleEndTimeChange = (event) => {
-    setEndTime(event.target.value);
+  const formatTime = (timeString) => {
+    const [hours, minutes] = timeString.split(":");
+    const formattedHours = hours.padStart(2, "0");
+    const formattedMinutes = minutes.padStart(2, "0");
+    const formattedSeconds = "00"; // Set seconds to "00"
+    return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
   };
 
   const handleAddCourseTime = () => {
     if (selectedCourse && startTime && endTime) {
-        const newCourseTimeId = selectedCourse;
-        // const newCourseTimeRef = push(ref(db, "coursetime"));
-        const newCourseTimeRef = ref(db, `coursetime/${newCourseTimeId}`);
-  
+      const newCourseTimeId = selectedCourse;
+      const newCourseTimeRef = ref(db, `coursetime/${newCourseTimeId}`);
+
       set(newCourseTimeRef, {
         courseId: selectedCourse,
         startTime,
@@ -75,7 +80,6 @@ export default function CourseTimeComponent() {
       });
     }
   };
-  
 
   const handleDeleteCourseTime = (id) => {
     if (
@@ -93,20 +97,19 @@ export default function CourseTimeComponent() {
     }
   };
 
-  const [user, setUser] = useState('')
+  const [user, setUser] = useState('');
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem('user_info'));
-      setUser(userInfo);
-      console.log(user);
-      if (!userInfo) {
-        window.location.href = "/auth/login";
-      }
-  }, [])
-  if(!user || user.role === 'Student' || user.role === 'Faculty'){
-      return (
-          <></>
-      )
+    setUser(userInfo);
+    if (!userInfo) {
+      window.location.href = "/auth/login";
+    }
+  }, []);
+
+  if (!user || user.role === 'Student' || user.role === 'Faculty') {
+    return <></>;
   }
+
   return (
     <div className="container mx-auto my-4">
       <div className="grid justify-center">
@@ -143,7 +146,8 @@ export default function CourseTimeComponent() {
           id="startTime"
           name="startTime"
           className="w-full border p-2 rounded"
-          onChange={handleStartTimeChange}
+          onChange={(e) => handleTimeChange(e, setStartTime)}
+          value={startTime}
         />
       </div>
       <div className="mb-4">
@@ -155,7 +159,8 @@ export default function CourseTimeComponent() {
           id="endTime"
           name="endTime"
           className="w-full border p-2 rounded"
-          onChange={handleEndTimeChange}
+          onChange={(e) => handleTimeChange(e, setEndTime)}
+          value={endTime}
         />
       </div>
       <div className="flex justify-end">
