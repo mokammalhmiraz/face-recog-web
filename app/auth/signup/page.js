@@ -44,11 +44,11 @@ export default function Signup() {
         window.location.href = "/auth/login";
       }
   }, [])
-  if(!user || user.role === 'Student' || user.role === 'Faculty'){
-      return (
-          <></>
-      )
-  }
+  // if(!user || user.role === 'Student' || user.role === 'Faculty'){
+  //     return (
+  //         <></>
+  //     )
+  // }
     return (
       <>
         <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
