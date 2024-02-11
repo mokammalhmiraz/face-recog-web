@@ -26,13 +26,13 @@ export default function Signup() {
       }),
     });
     const data = await res.json();
-    console.log(data);
+    // console.log(data);
     if(res.status === 201) {
       alert(data.message);
       window.location.href = "/auth/signup";
       
     } else {
-      alert(data.message);
+      // alert(data.message);
     }
   };
   const [user, setUser] = useState('')
@@ -44,11 +44,11 @@ export default function Signup() {
         window.location.href = "/auth/login";
       }
   }, [])
-  // if(!user || user.role === 'Student' || user.role === 'Faculty'){
-  //     return (
-  //         <></>
-  //     )
-  // }
+  if(!user || user.role === 'Student' || user.role === 'Faculty'){
+      return (
+          <></>
+      )
+  }
     return (
       <>
         <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
